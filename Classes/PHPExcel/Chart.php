@@ -106,6 +106,27 @@ class PHPExcel_Chart
   private $_yAxis = null;
 
   /**
+   * Secondary Y-Axis Color
+   *
+   * @var string
+   */
+  private $_yAxisColor = null;
+
+  /**
+   * Secondary Y-Axis Label
+   *
+   * @var PHPExcel_Chart_Title
+   */
+  private $_secondaryYAxisLabel  = null;
+
+  /**
+   * Secondary Y-Axis Color
+   *
+   * @var string
+   */
+  private $_secondaryYAxisColor = null;
+
+  /**
    * Chart Asix X as
    *
    * @var PHPExcel_Chart_Axis
@@ -177,7 +198,7 @@ class PHPExcel_Chart
 	/**
 	 * Create a new PHPExcel_Chart
 	 */
-	public function __construct($name, PHPExcel_Chart_Title $title = null, PHPExcel_Chart_Legend $legend = null, PHPExcel_Chart_PlotArea $plotArea = null, $plotVisibleOnly = true, $displayBlanksAs = '0', PHPExcel_Chart_Title $xAxisLabel = null, PHPExcel_Chart_Title $yAxisLabel = null, PHPExcel_Chart_Axis $xAxis = null, PHPExcel_Chart_Axis $yAxis = null, PHPExcel_Chart_GridLines $majorGridlines = null, PHPExcel_Chart_GridLines $minorGridlines = null)
+	public function __construct($name, PHPExcel_Chart_Title $title = null, PHPExcel_Chart_Legend $legend = null, PHPExcel_Chart_PlotArea $plotArea = null, $plotVisibleOnly = true, $displayBlanksAs = '0', PHPExcel_Chart_Title $xAxisLabel = null, PHPExcel_Chart_Title $yAxisLabel = null, PHPExcel_Chart_Axis $xAxis = null, PHPExcel_Chart_Axis $yAxis = null, PHPExcel_Chart_GridLines $majorGridlines = null, PHPExcel_Chart_GridLines $minorGridlines = null, PHPExcel_Chart_Title $secondaryYAxisLabel = null, $yAxisColor = null, $secondaryYAxisColor = null)
 	{
 		$this->_name = $name;
 		$this->_title = $title;
@@ -189,8 +210,11 @@ class PHPExcel_Chart
 		$this->_displayBlanksAs = $displayBlanksAs;
 		$this->_xAxis = $xAxis;
 		$this->_yAxis = $yAxis;
-    $this->_majorGridlines = $majorGridlines;
-    $this->_minorGridlines = $minorGridlines;
+        $this->_majorGridlines = $majorGridlines;
+        $this->_minorGridlines = $minorGridlines;
+        $this->_secondaryYAxisLabel = $secondaryYAxisLabel;
+        $this->_yAxisColor = $yAxisColor;
+        $this->_secondaryYAxisColor = $secondaryYAxisColor;
 	}
 
 	/**
@@ -307,6 +331,33 @@ class PHPExcel_Chart
 
 		return $this;
 	}
+
+    /**
+     * Get Secondary Y-Axis Label
+     *
+     * @return PHPExcel_Chart_Title
+     */
+    public function getSecondaryYAxisLabel() {
+        return $this->_secondaryYAxisLabel;
+    }
+
+    /**
+     * Get Y-Axis Color
+     *
+     * @return string
+     */
+    public function getYAxisColor() {
+        return $this->_yAxisColor;
+    }
+
+    /**
+     * Get Secondary Y-Axis Color
+     *
+     * @return string
+     */
+    public function getSecondaryYAxisColor() {
+        return $this->_secondaryYAxisColor;
+    }
 
 	/**
 	 * Get Plot Area
