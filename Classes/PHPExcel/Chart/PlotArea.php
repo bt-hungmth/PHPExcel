@@ -49,13 +49,21 @@ class PHPExcel_Chart_PlotArea
 	 */
 	private $_plotSeries = array();
 
+    /**
+     * Secondary Plot Series
+     *
+     * @var array of PHPExcel_Chart_DataSeries
+     */
+    private $_secondaryYAxisPlotSeries = array();
+
 	/**
 	 * Create a new PHPExcel_Chart_PlotArea
 	 */
-	public function __construct(PHPExcel_Chart_Layout $layout = null, $plotSeries = array())
+	public function __construct(PHPExcel_Chart_Layout $layout = null, $plotSeries = array(), $secondaryYAxisPlotSeries = array())
 	{
 		$this->_layout = $layout;
 		$this->_plotSeries = $plotSeries;
+        $this->_secondaryYAxisPlotSeries = $secondaryYAxisPlotSeries;
 	}
 
 	/**
@@ -76,6 +84,15 @@ class PHPExcel_Chart_PlotArea
 		return count($this->_plotSeries);
 	}
 
+    /**
+     * Get Number of Plot Secondary Groups
+     *
+     * @return array of PHPExcel_Chart_DataSeries
+     */
+    public function getPlotSecondaryGroupCount() {
+        return count($this->_secondaryYAxisPlotSeries);
+    }
+
 	/**
 	 * Get Number of Plot Series
 	 *
@@ -89,6 +106,19 @@ class PHPExcel_Chart_PlotArea
 		return $seriesCount;
 	}
 
+    /**
+     * Get Number of Plot Secondary Series
+     *
+     * @return integer
+     */
+    public function getPlotSecondarySeriesCount() {
+        $seriesCount = 0;
+        foreach($this->_secondaryYAxisPlotSeries as $plot) {
+            $seriesCount += $plot->getPlotSecondarySeriesCount();
+        }
+        return $seriesCount;
+    }
+
 	/**
 	 * Get Plot Series
 	 *
@@ -98,6 +128,15 @@ class PHPExcel_Chart_PlotArea
 		return $this->_plotSeries;
 	}
 
+    /**
+     * Get Plot Secondary Series
+     *
+     * @return array of PHPExcel_Chart_DataSeries
+     */
+    public function getPlotSecondaryGroup() {
+        return $this->_secondaryYAxisPlotSeries;
+    }
+
 	/**
 	 * Get Plot Series by Index
 	 *
@@ -106,6 +145,15 @@ class PHPExcel_Chart_PlotArea
 	public function getPlotGroupByIndex($index) {
 		return $this->_plotSeries[$index];
 	}
+
+    /**
+     * Get Plot Series by Index
+     *
+     * @return PHPExcel_Chart_DataSeries
+     */
+    public function getPlotSecondaryGroupByIndex($index) {
+        return $this->_secondaryYAxisPlotSeries[$index];
+    }
 
 	/**
 	 * Set Plot Series
@@ -119,10 +167,28 @@ class PHPExcel_Chart_PlotArea
         return $this;
 	}
 
+    /**
+     * Set Plot Secondary Series
+     *
+     * @param [PHPExcel_Chart_DataSeries]
+     * @return PHPExcel_Chart_PlotArea
+     */
+    public function setPlotSecondarySeries($plotSeries = array()) {
+        $this->_secondaryYAxisPlotSeries = $plotSeries;
+        return $this;
+    }
+
 	public function refresh(PHPExcel_Worksheet $worksheet) {
 	    foreach($this->_plotSeries as $plotSeries) {
 			$plotSeries->refresh($worksheet);
 		}
+
+        if(count($this->_secondaryYAxisPlotSeries) > 0)
+        {
+            foreach($this->_secondaryYAxisPlotSeries as $plotSeries) {
+                $plotSeries->refresh($worksheet);
+            }
+        }
 	}
 
 }
